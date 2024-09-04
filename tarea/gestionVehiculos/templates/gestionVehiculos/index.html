@@ -30,9 +30,11 @@
                     <td>{{ propietario.email }}</td>
                     <td>
                         {% for vehiculo in propietario.vehiculo_set.all %}
-                        <a href="{% url 'registrar_entrada' vehiculo.id %}">Registrar Entrada</a> <!-- Enlace para registrar entrada -->
+                        <a href="{% url 'registrar_entrada' vehiculo.id %}">Registrar Entrada</a>
                         {% endfor %}
-                        <a href="{% url 'registrar_vehiculo' propietario.id %}">Registrar Vehículo</a>  <!-- Opción para registrar vehículo -->
+                        <a href="{% url 'registrar_vehiculo' propietario.id %}">Registrar Vehículo</a>
+                        <br>
+                        <a href="{% url 'listar_vehiculos' propietario.id %}">Listar Vehículos</a>
                         {% for vehiculo in propietario.vehiculo_set.all %}
                         <form method="POST" action="{% url 'registrar_salida' vehiculo.id %}" style="display:inline;">
                             {% csrf_token %}
