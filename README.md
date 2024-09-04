@@ -1,5 +1,3 @@
-echo "# Proyecto de Gestión de Vehículos en un Condominio
-
 ## Descripción
 Este proyecto es una aplicación web desarrollada en Django que permite gestionar el registro de ingreso y salida de vehículos de propietarios en un condominio. El sistema almacena información sobre los propietarios, sus vehículos, y los registros de entrada y salida.
 
