@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'gestionVehiculos/css/styles.css' %}">
+    <title>Lista de Registros</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Registros de Ingreso y Salida</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Vehículo</th>
+                    <th>Última Hora de Entrada</th>
+                    <th>Última Hora de Salida</th>
+                    <th>Última Acción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehiculo in registros %}
+                <tr>
+                    <td>{{ vehiculo.matricula }}</td>
+                    <td>{{ vehiculo.registros.last_entry|default:"No ha entrado" }}</td>
+                    <td>{{ vehiculo.registros.last_exit|default:"No ha salido" }}</td>
+                    <td>
+                        {% if vehiculo.registros.last_exit %}
+                            Última acción: Salida
+                        {% elif vehiculo.registros.last_entry %}
+                            Última acción: Entrada
+                        {% else %}
+                            No hay registros
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'historial_registro' vehiculo.id %}">Ver historial</a>
+                        {% if vehiculo.last_exit == None %}
+                        <form method="POST" action="{% url 'registrar_salida' vehiculo.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Registrar Salida</button>
+                        </form>
+                        {% else %}
+                        <form method="POST" action="{% url 'registrar_entrada' vehiculo.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Registrar Entrada</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'index' %}">Volver a la lista de propietarios</a>
+    </div>
+</body>
+</html>

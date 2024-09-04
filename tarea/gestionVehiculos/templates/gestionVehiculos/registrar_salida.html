@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Salida</title>
+</head>
+<body>
+    <h1>Registrar Salida</h1>
+    <p>¿Estás seguro de que deseas registrar la salida del vehículo <strong>{{ registro.vehiculo.matricula }}</strong>?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Registrar Salida</button>
+    </form>
+    <a href="{% url 'index' %}">Cancelar</a>
+</body>
+</html>

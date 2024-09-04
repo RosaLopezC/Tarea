@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'gestionVehiculos/css/styles.css' %}">
+    <title>Gestión de Vehículos</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Registro de Propietarios y Vehículos</h1>
+        <h2>Propietarios</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Número de Apartamento</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for propietario in propietarios %}
+                <tr>
+                    <td>{{ propietario.nombre }}</td>
+                    <td>{{ propietario.numero_apartamento }}</td>
+                    <td>{{ propietario.telefono }}</td>
+                    <td>{{ propietario.email }}</td>
+                    <td>
+                        {% for vehiculo in propietario.vehiculo_set.all %}
+                        <a href="{% url 'registrar_entrada' vehiculo.id %}">Registrar Entrada</a> <!-- Enlace para registrar entrada -->
+                        {% endfor %}
+                        <a href="{% url 'registrar_vehiculo' propietario.id %}">Registrar Vehículo</a>  <!-- Opción para registrar vehículo -->
+                        {% for vehiculo in propietario.vehiculo_set.all %}
+                        <form method="POST" action="{% url 'registrar_salida' vehiculo.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Registrar Salida</button>
+                        </form>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+    <button><a href="{% url 'registrar_propietario' %}">Agregar Propietario</a></button>
+</body>
+</html>
